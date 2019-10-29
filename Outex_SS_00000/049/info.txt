@@ -1,0 +1,9 @@
+Problem Image name  : mosaic_05_A_050.ras
+Reference Image used: mosaic_05_A_050_ref.ras
+The size of trainImg: 256x256
+index  sourceImage                     boundingbox (X Y width height)  trainCoordinates (X Y)
+01     canvas03-inca-100dpi-05.bmp     303 198 513 166                 29  283 
+02     carpet04-inca-100dpi-45.bmp     18  506 165 511                 257 163 
+03     carpet05-inca-100dpi-10.bmp     28  133 168 504                 276 450 
+04     canvas05-inca-100dpi-60.bmp     318 16  510 165                 46  359 
+05     canvas22-inca-100dpi-15.bmp     111 24  271 271                 210 336 

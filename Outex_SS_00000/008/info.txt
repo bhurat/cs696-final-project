@@ -1,0 +1,6 @@
+index  sourceImage                     boundingbox (X Y width height)  trainCoordinates (X Y)
+01     canvas032-inca-100dpi-45.bmp     370 131 513 166                 103 24  
+02     canvas022-inca-100dpi-30.bmp     18  93  165 511                 193 362 
+03     carpet002-inca-100dpi-00.bmp     29  14  168 504                 77  296 
+04     canvas001-inca-100dpi-00.bmp     308 54  510 165                 21  332 
+05     canvas035-inca-100dpi-45.bmp     135 3   271 271                 234 416 
