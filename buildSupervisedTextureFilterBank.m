@@ -1,9 +1,18 @@
-function [Bw, Bt] = buildSupervisedTextureFilterBank(nfold,params)
+function [Bw, Bt,maxima] = buildSupervisedTextureFilterBank(nfold,params)
+%Get folder name to navigate
 folname = strcat('Outex_SS_00000/',nfold,'/');
+
+%initialize output arrays
 Bw = [];
 Bt = [];
+maxima = [];
 
-
+%For each texture, we're going to load image, take its pseudopolar fft, and
+%get the radial and angular boundaries as per EWT2D_Curvelet function w/
+%option 1.
+%
+%Also, we'll calculate the maxima on the windows created by detected radii
+%and angles on the image
 for i = 1:5
     filename = strcat(folname,'train_0',num2str(i),'.ras');
     f = im2double(imread(filename))/255;
@@ -11,45 +20,46 @@ for i = 1:5
     if d > 1
         f = f(:,:,1);
     end
-    %% PSEUDO-FFT
+    % PSEUDO-FFT
     PseudoFFT = PPFFT(f);
     meanppfft=fftshift(sum(abs(PseudoFFT),2));
+    [h,w] = size(PseudoFFT);
+    % Detect the radial boundaries
+    boundaries1 = EWT_Boundaries_Detect(meanppfft(1:round(length(meanppfft)/2)),1,params);
     
-    %% GET LOCAL MAXIMA
-    %TO DO
     
-    %% Detect the radial boundaries
-    boundaries = EWT_Boundaries_Detect(meanppfft(1:round(length(meanppfft)/2)),1,params);
-    Bw = [Bw;boundaries*pi/round(length(meanppfft)/2)];
-
+    %Store radial boundaries
+    Bw = [Bw;boundaries1]; 
+    
     % Compute the mean spectrum with respect to the magnitude frequency to find
     % the angles
     meanppfft=sum(abs(PseudoFFT),1);
 
-    %% DETECT THE ANGULAR BOUNDARIES
-    boundaries = EWT_Angles_Detect(meanppfft',params);
-    Bt = [Bt; (boundaries-1)*pi/length(meanppfft)-3*pi/4];
+    % Detect angular boundaries
+    boundaries2 = EWT_Angles_Detect(meanppfft',params);
+    
+    %Store angular boundaries
+    Bt = [Bt; boundaries2];
+    
+    % Call getSpectrumMaxima to detect maxima locations
+    maxima = [maxima; getSpectrumMaxima(PseudoFFT,boundaries1,boundaries2)];
+    
 end
-% 
-% %REMOVE BASED ON LOCAL MAXIMA
-% % TO DO
-% %REMOVE BASED ON THRESHOLD (paper says dr = .2, dtheta = .07)
-rad_thresh = .2; ang_thresh = .07;
-for i = 1:length(Bw)-1
-    if Bw(i+1)-Bw(i) < rad_thresh
-        avg = (Bw(i+1)+Bw(i))/2;
-        Bw(i) = -1;
-        Bw(i+1) = avg;
-    end
-end
-Bw = unique(Bw(Bw~= -1));
 
-for i = 1:length(Bt)-1
-    if Bt(i+1) - Bt(i) < ang_thresh
-        avg = (Bt(i+1) + Bt(i))/2;
-        Bt(i) = -1;
-        Bt(i+1) = avg;
-    end
-end
-Bt = unique(Bt(Bt~=-1));
+%Sort and remove repeat values
+Bw = sort(unique(Bw)); Bt = sort(unique(Bt));
+
+% Call removeBoundsLocMax to remove based on maxima detected
+[Bw, Bt] = removeBoundsLocMax([1;Bw;round(w/2)],[1;Bt;h],maxima);
+
+% Normalize
+Bw = Bw*pi/round(length(meanppfft)/2);
+Bt = (Bt-1)*pi/length(meanppfft)-3*pi/4;
+
+% Call removeBoundsThreshold to remove based on threshold 
+%(paper says dr = .2, dtheta = .07)
+% 
+%Currently implemented w/out finding midpoints since it made no sense and
+%also didn't work in practice
+[Bw,Bt] = removeBoundsThreshold(Bw,Bt,.2,.07);
 end
