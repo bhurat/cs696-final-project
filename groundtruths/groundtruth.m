@@ -1,5 +1,5 @@
-i = 21;
-while (i <= 100)
+i = 1;
+while (i <= 20)
     image = rand(256,256);
     I = imgaussfilt(image,20);
     threshold = median(image(:));
