@@ -11,9 +11,7 @@
 %that folder and returns it. 
 %histogram of image #i, pixel (j,k) is extracted w/ ewtFeatures{i}(j,k,:)
 
-
 %Author - Basile Hurat SDSU Applied Mathematics
-%ADDENDUM: SOME LINES COMMENTED OUT FOR PREVIOUS USE
 
 function ewtFeatures = extractEWTFeatures(nfold, imNum)
     if nargin < 2   %Default params
@@ -23,14 +21,14 @@ function ewtFeatures = extractEWTFeatures(nfold, imNum)
     load([filename nfold '/filter.mat']); %Loads in filter
     ewtFeatures = cell(imNum,1); %initialize output cell
     
-    %loop through images, reads them, applies filter, and stores it
+    %loop through images
     for j = 1:imNum
         im = imread([filename nfold '/Data' int2str(j) '.ras']);
         ewtFeatures{j} = applyFilterBank(im,mfb);
-         %save([filename nfold 'Features' int2str(j) '.mat'],'ewtc'); %(IGNORE)
+         %save([filename nfold 'Features' int2str(j) '.mat'],'ewtc');
     end
 
-    %%%IGNORE
+
     % end
     % for i = 10:99
     % nfold = ['00' int2str(i) '/'];
