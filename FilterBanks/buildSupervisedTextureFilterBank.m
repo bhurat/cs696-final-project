@@ -26,7 +26,7 @@ for i = 1:5
     % PSEUDO-FFT
     PseudoFFT = PPFFT(f);
     meanppfft=fftshift(sum(abs(PseudoFFT),2));
-    [h,w] = size(PseudoFFT);
+    [h1,w1] = size(PseudoFFT);
     % Detect the radial boundaries
     boundaries1 = EWT_Boundaries_Detect(meanppfft(1:round(length(meanppfft)/2)),params);
     
@@ -53,7 +53,7 @@ end
 Bw = sort(unique(Bw)); Bt = sort(unique(Bt));
 
 % Call removeBoundsLocMax to remove based on maxima detected
-[Bw, Bt] = removeBoundsLocMax([1;Bw;round(w/2)],[1;Bt;h],maxima);
+[Bw, Bt] = removeBoundsLocMax([1;Bw;round(w1/2)],[1;Bt;h1],maxima);
 
 % Normalize
 Bw = Bw*pi/round(length(meanppfft)/2);
@@ -61,10 +61,10 @@ Bt = (Bt-1)*pi/length(meanppfft)-3*pi/4;
 
 % Call removeBoundsThreshold to remove based on threshold 
 %(paper says dr = .2, dtheta = .07)
-% 
-maxima = Bw;
+
 %Currently implemented w/out finding midpoints since it made no sense and
 %also didn't work in practice
 [Bw,Bt] = removeBoundsThreshold(Bw,Bt,thresh(1),thresh(2));
-mfb = EWT2D_Curvelet_FilterBank(Bw,Bt,w,h,params.option);
+
+mfb = EWT2D_Curvelet_FilterBank(Bw,Bt,128,128,1);
 end
