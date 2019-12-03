@@ -1,10 +1,10 @@
-function [mfb,Bw,Bt] = buildSupervisedTextureFilterBank(nfold,params,thresh)
+function [Bw,Bt] = buildSupervisedTextureFilterBank(nfold,params,thresh)
 if nargin < 3
 thresh = [.2 .07];
 end
 
 %Get folder name to navigate
-folname = ['Outex_SS_00000\' nfold '\'];
+folname = ['../Outex_SS_00000/' nfold '/'];
 for i = 1:5
 %initialize output arrays
 Bw = [];
@@ -65,6 +65,4 @@ Bt = (Bt-1)*pi/length(meanppfft)-3*pi/4;
 %Currently implemented w/out finding midpoints since it made no sense and
 %also didn't work in practice
 [Bw,Bt] = removeBoundsThreshold(Bw,Bt,thresh(1),thresh(2));
-
-mfb = EWT2D_Curvelet_FilterBank(Bw,Bt,128,128,1);
 end

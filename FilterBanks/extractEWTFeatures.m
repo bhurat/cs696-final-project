@@ -26,6 +26,11 @@ function ewtFeatures = extractEWTFeatures(nfold, imNum)
     %loop through images, reads them, applies filter, and stores it
     for j = 1:imNum
         im = imread([filename nfold '/Data' int2str(j) '.ras']);
+        %if this is first iteration, create filter bank based on image size
+        if j == 1
+            [h,w] = size(im);
+            mfb = EWT2D_Curvelet_FilterBank(Bw,Bt,h,w,1);
+        end
         ewtFeatures{j} = applyFilterBank(im,mfb);
          %save([filename nfold 'Features' int2str(j) '.mat'],'ewtc'); %(IGNORE)
     end
