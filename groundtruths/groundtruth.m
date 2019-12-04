@@ -1,7 +1,7 @@
 i = 1;
-while (i <= 20)
-    image = rand(256,256);
-    I = imgaussfilt(image,20);
+while (i <= 1000)
+    image = rand(128,128);
+    I = imgaussfilt(image,10);
     threshold = median(image(:));
     BW = imbinarize(I,threshold);
     BW = imfill(BW,'holes');
@@ -10,14 +10,17 @@ while (i <= 20)
     [L,n] = bwlabel(BW);
     if (n + m == 5)
         L(L==0) = L2(L==0)+ max(L(:));
-        if checkRegSizes(L,900)
-            figure,imshow(L,[]);
+        if checkRegSizes(L,500)
+            %figure,imshow(L,[]);
             save(['GT' int2str(i) '.mat'],'L');
         else
             continue;
         end
     else
         continue;
+    end
+    if mod(i,100) == 0
+        i
     end
     i = i + 1;
 end
