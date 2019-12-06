@@ -58,7 +58,7 @@ if option==1
            DTheta=r;
         end
     end
-
+    
     r=(Bt(1)+pi-Bt(end))/2;
     if r<DTheta 
         DTheta=r; 

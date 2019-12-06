@@ -5,7 +5,7 @@ addpath('../FilterBanks/','../PolarLab/');
 nfold = '000';
 imageDir = fullfile(['../Outex_SS_00000/' nfold]);
 imSet = imageSet(imageDir,'recursive');
-imNum = 5;
+imNum = 1;
 
 %Create random permutation of number of images, keep first imNum images
 rng(3929);
@@ -33,7 +33,7 @@ for i = 1:trainNum
     ewtc = applyFilterBank(read(imSet(1),arrTrainID(i)),mfb);
     
     %apply local energy computation
-    featIm = localEnergyComputation(ewtc);
+    featIm = calcLocalEnergy(ewtc,3);
     trainingFeatures(128*128*(i-1) + 1:128*128*i,:) = reshape(featIm,[128*128 featureSize]);
     load(['../groundtruths/GT' int2str(arrTrainID(i)) '.mat']);
     trainingLabels(128*128*(i-1)+1 : 128*128*i) = reshape(L,[128*128 1]);
@@ -43,9 +43,9 @@ fprintf('\n Done storing training features \n')
 
 %% Train classifier
 %knn (Probably needs extra preprocessing)
-%classifier = fitcknn(trainingFeatures, trainingLabels);
+classifier = fitcknn(trainingFeatures, trainingLabels);
 %multiclass svm
-classifier = fitcecoc(trainingFeatures, uint8(trainingLabels));
+%classifier = fitcecoc(trainingFeatures, uint8(trainingLabels));
 %boosting
 %classifier = fitensemble(X,Y,'Method','AdaBoostM2','NumLearningCycles',5,'Learners','Tree');
 
@@ -53,7 +53,10 @@ fprintf('\n Done training classifier \n')
 
 %% Load test and get its features
 test = read(imSet(1),1001);
-testFeatures = reshape(applyFilterBank(test,Bw,Bt),[512*512 featureSize]);
+ewtc = applyFilterBank(test,Bw,Bt);
+featIm = calcLocalEnergy(ewtc,3);
+
+testFeatures = reshape(featIm,[512*512 featureSize]);
 
 %% Run test through classifier, reshape to image, and show image
 predictedLabels = predict(classifier, testFeatures);
@@ -62,6 +65,6 @@ imshow(predictedPixels,[]);
 fprintf('\n Done fitting test problem \n')
 
 %Get and show resulting accuracy
-GroundTruths = 4/255.*imread('../Outex_SS_00000/ground_truth.ras');
+GroundTruths = uint8(255*im2double(imread('../Outex_SS_00000/ground_truth.ras')));
 unique(GroundTruths)
-confusionchart(GroundTruths,predictedlabels);
+confusionchart(GroundTruths,predictedLabels);
