@@ -19,7 +19,7 @@
 %     end
 %     i
 %  end
-for i = 30:69
+for i = 70:99
     folname = ['0' int2str(i) '/'];
     for k = 1:5
         begx = ceil(rand*128); begy = ceil(rand*128);
