@@ -6,34 +6,34 @@
 %     for k = 1:5
 %         begx = ceil(rand*128); begy = ceil(rand*128);
 %         temp = imread([folname 'train_0' int2str(k) '.ras']);
-%         textur{k} = temp(begy:begy+127,begx:begx+127);
+%         textur{k} = temp;%(begy:begy+127,begx:begx+127);
 %     end
-%     for j = 1:1000
-%         load(['../groundtruths/GT' int2str(j) '.mat']);
+%     for j = 1:250
+%         load(['../groundtruths/sz256/GT' int2str(j) '.mat']);
 %         im = zeros(size(L));
 %         for k = 1:5
 %             im(L==k) = textur{k}(L==k);
 %         end
 %         im = im./255;
-%         imwrite(im,[folname 'Data' int2str(j) '.ras'])
+%         imwrite(im,[folname 'sz256Data' int2str(j) '.ras'])
 %     end
 %     i
 %  end
-for i = 10:99
+for i = 10:39
     folname = ['0' int2str(i) '/'];
     for k = 1:5
         begx = ceil(rand*128); begy = ceil(rand*128);
         temp = imread([folname 'train_0' int2str(k) '.ras']);
-        textur{k} = temp(begy:begy+127,begx:begx+127);
+        textur{k} = temp;%(begy:begy+127,begx:begx+127);
     end
-    for j = 1:1000
-        load(['../groundtruths/sz256GT' int2str(k) '.mat']);
+    for j = 1:250
+        load(['../groundtruths/sz256/GT' int2str(j) '.mat']);
         im = zeros(size(L));
         for k = 1:5
             im(L==k) = textur{k}(L==k);
         end
         im = im./255;
-    imwrite(im,[folname 'Data' int2str(j) '.ras'])    
+    imwrite(im,[folname 'sz256Data' int2str(j) '.ras'])    
     end
     i
 end
