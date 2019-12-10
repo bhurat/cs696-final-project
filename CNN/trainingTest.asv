@@ -53,7 +53,7 @@ for i = 1:trainNum
     trainingLabels(h*w*(i-1)+1 : h*w*i) = reshape(L,[h*w 1]);
 end
 
-fprintf('\nDone storing training features \n')
+fprintf('\n Done storing training features \n')
 
 %% Train classifier
 %knn (Probably needs extra preprocessing)
@@ -63,7 +63,7 @@ fprintf('\nDone storing training features \n')
 %naive bayesian classifier
 classifier =  fitcnb(trainingFeatures,trainingLabels);
 
-fprintf('Done training classifier \n')
+fprintf('\n Done training classifier \n')
 
 %% Load test and get its features
 test = im2double(read(imSet(1),1001));
@@ -76,7 +76,7 @@ testFeatures = reshape(featIm,[512*512 size(ewtc,3)]);
 predictedLabels = predict(classifier, testFeatures);
 predictedPixels = reshape(predictedLabels,[512 512]);
 imshow(predictedPixels,[]);
-fprintf('Done fitting test problem \n')
+fprintf('\n Done fitting test problem \n')
 
 %Get and show resulting accuracy
 GroundTruths = uint8(255*im2double(imread('../Outex_SS_00000/ground_truth.ras')));
