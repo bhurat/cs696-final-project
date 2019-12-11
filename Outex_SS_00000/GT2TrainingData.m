@@ -19,7 +19,7 @@
 %     end
 %     i
 %  end
-for i = 40:79
+for i = 10:39
     folname = ['0' int2str(i) '/'];
     for k = 1:5
         begx = ceil(rand*128); begy = ceil(rand*128);
@@ -33,7 +33,7 @@ for i = 40:79
             im(L==k) = textur{k}(L==k);
         end
         im = im./255;
-    imwrite(im,[folname int2str(j) '.ras'])    
+    imwrite(im,[folname 'Data' int2str(j) '.ras'])    
     end
     i
 end
