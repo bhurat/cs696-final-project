@@ -8,7 +8,7 @@ imageDir = fullfile(['../Outex_SS_00000/' nfold]);
 imSet = imageSet(imageDir,'recursive');
 imSize = 256;
 imNum = 10;
-postproc = 5;
+postproc = 9;
 %Create random permutation of number of images, keep first imNum images
 if imSize == 128
     imMax = 1000;
