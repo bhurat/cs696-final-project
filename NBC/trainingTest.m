@@ -8,7 +8,7 @@ imageDir = fullfile(['../Outex_SS_00000/' nfold]);
 imSet = imageSet(imageDir,'recursive');
 imSize = 256;
 imNum = 10;
-postproc = 5;
+postproc = 9;
 %Create random permutation of number of images, keep first imNum images
 if imSize == 128
     imMax = 1000;
@@ -42,6 +42,7 @@ trainingFeatures = zeros(h*w*trainNum,featureSize);
 trainingLabels = zeros(h*w*trainNum,1);
 
 %Collect feature and label data
+tic
 for i = 1:trainNum
     img = im2double(imread([imfold int2str(trainID(i)) '.ras']));
     [~, img] = TVG_CartoonTexture(img);
@@ -53,7 +54,7 @@ for i = 1:trainNum
     load([GTfold int2str(trainID(i)) '.mat']);
     trainingLabels(h*w*(i-1)+1 : h*w*i) = reshape(L,[h*w 1]);
 end
-
+toc
 fprintf('\nDone storing training features \n')
 
 %% Train classifier

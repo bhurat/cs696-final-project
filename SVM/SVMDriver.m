@@ -8,7 +8,7 @@ imageDir = fullfile(['../Outex_SS_00000/' nfold]);
 imSet = imageSet(imageDir,'recursive');
 imSize = 256;
 imNum = 10;
-postproc = 5;
+postproc = 9;
 %Create random permutation of number of images, keep first imNum images
 if imSize == 128
     imMax = 1000;
@@ -70,7 +70,7 @@ ewtc = applyFilterBank(test,Bw,Bt);
 featIm = calcLocalEnergy(ewtc,postproc);
 testFeatures = reshape(featIm,[512*512 size(ewtc,3)]);
 
-% Run test through classifier, reshape to image, and show image
+%% Run test through classifier, reshape to image, and show image
 predictedLabels = predict(classifier, testFeatures);
 toc
 predictedPixels = reshape(predictedLabels,[512 512]);
