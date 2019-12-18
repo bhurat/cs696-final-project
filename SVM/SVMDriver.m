@@ -3,7 +3,7 @@ addpath('../FilterBanks/','../PolarLab/','../Utilities');
 %also add fold and all subfolders of EWT to path
 
 %choose folder number, load image directory, and choose number of images
-nfold = '000';
+nfold = '099';
 imageDir = fullfile(['../Outex_SS_00000/' nfold]);
 imSet = imageSet(imageDir,'recursive');
 imSize = 256;
@@ -58,7 +58,12 @@ fprintf('\nDone storing training features \n')
 %% Train classifier
 
 %multiclass svm
-classifier = fitcecoc(trainingFeatures, trainingLabels);
+% classifier = fitcecoc(trainingFeatures, trainingLabels);
+tTree = templateTree('surrogate','on');
+tEnsemble = templateEnsemble('GentleBoost',100,tTree);
+options = statset('UseParallel',true);
+classifier = fitcecoc(trainingFeatures,trainingLabels,'Coding','allpairs','Learners',tEnsemble,...
+               'Prior','empirical','NumBins',100,'Options',options);
 
 fprintf('Done training classifier \n')
 
@@ -78,7 +83,9 @@ imshow(predictedPixels,[]);
 fprintf('Done fitting test problem \n')
 
 %Get and show resulting accuracy
-GroundTruths = uint8(255*im2double(imread('../Outex_SS_00000/ground_truth.ras')));
+GroundTruth50s = uint8(255*im2double(imread('../Outex_SS_00000/ground_truth.ras')));
 figure();
 confChart = confusionchart(reshape(GroundTruths,[512*512 1]),uint8(predictedLabels));
 dispMetricAccuracy(GroundTruths,predictedPixels);
+load gong;
+sound(y,Fs);
