@@ -1,3 +1,5 @@
+%Creates and saves filter for each folder 
+%Author: Basile Hurat SDSU Applied Math
 for i = 0:9
 nfold = ['00' int2str(i)];
 params = EWTDefaultParams;

@@ -1,3 +1,18 @@
+%Function getSpectrumMaxima
+%Inputs: 
+%   - Bw: Combined radial boundaries
+%   - Bt: Combined angular boundaries
+%   - rad_thresh: radial threshold
+%   - ang_thresh: angular threshold
+%
+%Outputs:
+%   - Bw: new radial boundaries
+%   - Bt: new angular boundaries
+%
+% Removes boundaries that are too close (as per threshold)
+%
+%Author - Basile Hurat SDSU Applied Mathematics
+
 function [Bw,Bt] = removeBoundsThreshold(Bw,Bt,rad_thresh,ang_thresh);
 %Look at each 2 subsequent radial boundaries. If their difference is less
 %than or equal to our threshold, remove the larger one

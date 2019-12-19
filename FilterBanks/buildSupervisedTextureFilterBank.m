@@ -1,3 +1,20 @@
+% Function: buildSupervisedTextureFilterBank
+%Inputs: 
+%   - nfold: folder to build filter bank for
+%   - params: parameters for empirical wavelet transform (see EWT
+%   documentation)
+%   - thresh: [radial threshold, angular threshold]
+%
+%Outputs:
+%   - Bw: Radial bounds
+%   - Bt: Angular bounds
+%
+% Builds supervised texture filter bank based on algorithm in paper. Gets
+% bounds for each training texture, combines them, replaces with midpoint
+% if maxes arent in between, then removes bounds if they are too close
+% together (as per thresholds)
+%
+% Author: Basile Hurat  SDSU Applied Mathematics
 function [Bw,Bt] = buildSupervisedTextureFilterBank(nfold,params,thresh)
 if nargin < 3
 thresh = [.2 .07];

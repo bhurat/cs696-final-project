@@ -1,3 +1,16 @@
+%Function getSpectrumMaxima
+%Inputs: 
+%   - PseudoFFT: psuedo-polar fourier transform of an image
+%   - boundariesScale: Scale boundaries detected by EWT
+%   - boundariesAngular: Angular boundaries detected by EWT
+%
+%Outputs:
+%   - maxima: Coordinates of maxima in each filter 
+%
+%Function that, given a segmentation from the EWT, finds the maxima in each
+%region. Use for creating combined filter bank
+%
+%Author - Basile Hurat SDSU Applied Mathematics
 function [maxima] = getSpectrumMaxima(PseudoFFT,boundariesScale,boundariesAng)
     %Initialize output array
     maxima = [];

@@ -1,3 +1,17 @@
+%Function getSpectrumMaxima
+%Inputs: 
+%   - Bw: Scale boundaries detected by EWT
+%   - Bt: Angular boundaries detected by EWT
+%   - maxima: Detected maximas
+%
+%Outputs:
+%   - Bw: New scale boundaries
+%   - Bt: New angular boundaries
+%
+% Given maxima and boundaries, replaces boundaries w/ midpoint if there are
+% no maxima between them. 
+%
+%Author - Basile Hurat SDSU Applied Mathematics
 function [Bw,Bt] = removeBoundsLocMax(Bw,Bt,maxima)
 
 %take and separate the max radial values and angular values for sorting

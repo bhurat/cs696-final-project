@@ -1,3 +1,14 @@
+% Function: calcLocalEnergy
+%Inputs: 
+%   - ewtc: empirical wavelet filter banks
+%   - winSize: Window size
+%
+%Outputs:
+%   - Energies: local energies for each wavelet filter
+%
+%Calculates local energy for each pixel w/ given window size. Uses
+%symmetric padding for the filtering
+% Author: Basile Hurat  SDSU Applied Mathematics
 function Energies = calcLocalEnergy(ewtc,winSize)
 [h,w,d] = size(ewtc);
 Energies = zeros(h,w,d);
