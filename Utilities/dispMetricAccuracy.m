@@ -1,3 +1,4 @@
+%Displays metric accuracies
 function dispMetricAccuracy(groundtruths,predicted,verbose)
     if nargin < 3
         verbose = 1;
